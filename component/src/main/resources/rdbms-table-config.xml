@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~  Copyright (C) 2018 WSO2 Inc. (http://wso2.com) All Rights Reserved.
+  ~
+  ~ This library is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU Lesser General Public
+  ~ License as published by the Free Software Foundation; either
+  ~ version 2.1 of the License, or (at your option) any later version.
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this library; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+  -->
+
+<rdbms-table-configuration>
+    <database name="h2">
+        <tableCreateQuery>CREATE TABLE {{TABLE_NAME}} ({{COLUMNS, PRIMARY_KEYS}})</tableCreateQuery>
+        <tableCheckQuery>SELECT 1 FROM {{TABLE_NAME}} LIMIT 1</tableCheckQuery>
+        <indexCreateQuery>CREATE INDEX {{TABLE_NAME}}_INDEX ON {{TABLE_NAME}} ({{INDEX_COLUMNS}})</indexCreateQuery>
+        <recordExistsQuery>SELECT TOP 1 1 FROM {{TABLE_NAME}} {{CONDITION}}</recordExistsQuery>
+        <recordSelectQuery>SELECT * FROM {{TABLE_NAME}} {{CONDITION}}</recordSelectQuery>
+        <recordInsertQuery>INSERT INTO {{TABLE_NAME}} ({{COLUMNS}}) VALUES ({{Q}})</recordInsertQuery>
+        <recordUpdateQuery>UPDATE {{TABLE_NAME}} SET {{COLUMNS_AND_VALUES}}
+            {{CONDITION}}</recordUpdateQuery>
+        <recordDeleteQuery>DELETE FROM {{TABLE_NAME}} {{CONDITION}}</recordDeleteQuery>
+        <recordContainsCondition>{{COLUMNS}} LIKE {{VALUES}}</recordContainsCondition>
+        <stringSize>254</stringSize>
+        <batchEnable>true</batchEnable>
+        <batchSize>1000</batchSize>
+        <typeMapping>
+            <binaryType>BLOB</binaryType>
+            <booleanType>TINYINT(1)</booleanType>
+            <doubleType>DOUBLE</doubleType>
+            <floatType>FLOAT</floatType>
+            <integerType>INTEGER</integerType>
+            <longType>BIGINT</longType>
+            <stringType>VARCHAR</stringType>
+        </typeMapping>
+    </database>
+    <database name="mysql">
+        <tableCreateQuery>CREATE TABLE {{TABLE_NAME}} ({{COLUMNS, PRIMARY_KEYS}})</tableCreateQuery>
+        <tableCheckQuery>SELECT 1 FROM {{TABLE_NAME}} LIMIT 1</tableCheckQuery>
+        <indexCreateQuery>CREATE INDEX {{TABLE_NAME}}_INDEX ON {{TABLE_NAME}} ({{INDEX_COLUMNS}})</indexCreateQuery>
+        <recordExistsQuery>SELECT 1 FROM {{TABLE_NAME}} {{CONDITION}} LIMIT 1</recordExistsQuery>
+        <recordSelectQuery>SELECT * FROM {{TABLE_NAME}} {{CONDITION}}</recordSelectQuery>
+        <recordInsertQuery>INSERT INTO {{TABLE_NAME}} ({{COLUMNS}}) VALUES ({{Q}})</recordInsertQuery>
+        <recordUpdateQuery>UPDATE {{TABLE_NAME}} SET {{COLUMNS_AND_VALUES}} {{CONDITION}}</recordUpdateQuery>
+        <recordDeleteQuery>DELETE FROM {{TABLE_NAME}} {{CONDITION}}</recordDeleteQuery>
+        <recordContainsCondition>({{COLUMNS}} LIKE {{VALUES}})</recordContainsCondition>
+        <stringSize>254</stringSize>
+        <batchEnable>true</batchEnable>
+        <batchSize>1000</batchSize>
+        <typeMapping>
+            <binaryType>BLOB</binaryType>
+            <booleanType>TINYINT(1)</booleanType>
+            <doubleType>DOUBLE</doubleType>
+            <floatType>FLOAT</floatType>
+            <integerType>INTEGER</integerType>
+            <longType>BIGINT</longType>
+            <stringType>VARCHAR</stringType>
+        </typeMapping>
+    </database>
+    <database name="oracle" maxVersion = "12.0">
+        <tableCreateQuery>CREATE TABLE {{TABLE_NAME}} ({{COLUMNS, PRIMARY_KEYS}})</tableCreateQuery>
+        <tableCheckQuery>SELECT 1 FROM {{TABLE_NAME}} WHERE rownum=1</tableCheckQuery>
+        <indexCreateQuery>CREATE INDEX {{TABLE_NAME}}_INDEX ON {{TABLE_NAME}} ({{INDEX_COLUMNS}})</indexCreateQuery>
+        <recordExistsQuery>SELECT 1 FROM {{TABLE_NAME}} {{CONDITION}}</recordExistsQuery>
+        <recordSelectQuery>SELECT * FROM {{TABLE_NAME}} {{CONDITION}}</recordSelectQuery>
+        <recordInsertQuery>INSERT INTO {{TABLE_NAME}} ({{COLUMNS}}) VALUES ({{Q}})</recordInsertQuery>
+        <recordUpdateQuery>UPDATE {{TABLE_NAME}} SET {{COLUMNS_AND_VALUES}} {{CONDITION}}</recordUpdateQuery>
+        <recordDeleteQuery>DELETE FROM {{TABLE_NAME}} {{CONDITION}}</recordDeleteQuery>
+        <recordContainsCondition>({{COLUMNS}} LIKE {{VALUES}})</recordContainsCondition>
+        <stringSize>254</stringSize>
+        <fieldSizeLimit>2000</fieldSizeLimit>
+        <batchEnable>false</batchEnable>
+        <batchSize>1000</batchSize>
+        <typeMapping>
+            <binaryType>BLOB</binaryType>
+            <booleanType>NUMBER(1)</booleanType>
+            <doubleType>NUMBER(19,4)</doubleType>
+            <floatType>NUMBER(19,4)</floatType>
+            <integerType>NUMBER(10)</integerType>
+            <longType>NUMBER(19)</longType>
+            <stringType>VARCHAR</stringType>
+            <bigStringType>CLOB</bigStringType>
+        </typeMapping>
+    </database>
+    <database name="oracle" minVersion = "12.1">
+        <tableCreateQuery>CREATE TABLE {{TABLE_NAME}} ({{COLUMNS, PRIMARY_KEYS}})</tableCreateQuery>
+        <tableCheckQuery>SELECT 1 FROM {{TABLE_NAME}} WHERE rownum=1</tableCheckQuery>
+        <indexCreateQuery>CREATE INDEX {{TABLE_NAME}}_INDEX ON {{TABLE_NAME}} ({{INDEX_COLUMNS}})</indexCreateQuery>
+        <recordExistsQuery>SELECT 1 FROM {{TABLE_NAME}} {{CONDITION}}</recordExistsQuery>
+        <recordSelectQuery>SELECT * FROM {{TABLE_NAME}} {{CONDITION}}</recordSelectQuery>
+        <recordInsertQuery>INSERT INTO {{TABLE_NAME}} ({{COLUMNS}}) VALUES ({{Q}})</recordInsertQuery>
+        <recordUpdateQuery>UPDATE {{TABLE_NAME}} SET {{COLUMNS_AND_VALUES}} {{CONDITION}}</recordUpdateQuery>
+        <recordDeleteQuery>DELETE FROM {{TABLE_NAME}} {{CONDITION}}</recordDeleteQuery>
+        <recordContainsCondition>({{COLUMNS}} LIKE {{VALUES}})</recordContainsCondition>
+        <stringSize>254</stringSize>
+        <fieldSizeLimit>2000</fieldSizeLimit>
+        <batchEnable>true</batchEnable>
+        <batchSize>1000</batchSize>
+        <typeMapping>
+            <binaryType>BLOB</binaryType>
+            <booleanType>NUMBER(1)</booleanType>
+            <doubleType>NUMBER(19,4)</doubleType>
+            <floatType>NUMBER(19,4)</floatType>
+            <integerType>NUMBER(10)</integerType>
+            <longType>NUMBER(19)</longType>
+            <stringType>VARCHAR</stringType>
+            <bigStringType>CLOB</bigStringType>
+        </typeMapping>
+    </database>
+    <database name="Microsoft SQL Server">
+        <tableCreateQuery>CREATE TABLE {{TABLE_NAME}} ({{COLUMNS, PRIMARY_KEYS}})</tableCreateQuery>
+        <tableCheckQuery>SELECT TOP 1 1 from {{TABLE_NAME}}</tableCheckQuery>
+        <indexCreateQuery>CREATE INDEX {{TABLE_NAME}}_INDEX ON {{TABLE_NAME}} ({{INDEX_COLUMNS}})</indexCreateQuery>
+        <recordExistsQuery>SELECT TOP 1 1 FROM {{TABLE_NAME}} {{CONDITION}}</recordExistsQuery>
+        <recordSelectQuery>SELECT * FROM {{TABLE_NAME}} {{CONDITION}}</recordSelectQuery>
+        <recordInsertQuery>INSERT INTO {{TABLE_NAME}} ({{COLUMNS}}) VALUES ({{Q}})</recordInsertQuery>
+        <recordUpdateQuery>UPDATE {{TABLE_NAME}} SET {{COLUMNS_AND_VALUES}} {{CONDITION}}</recordUpdateQuery>
+        <recordDeleteQuery>DELETE FROM {{TABLE_NAME}} {{CONDITION}}</recordDeleteQuery>
+        <recordContainsCondition>({{COLUMNS}} LIKE {{VALUES}})</recordContainsCondition>
+        <stringSize>254</stringSize>
+        <batchEnable>true</batchEnable>
+        <batchSize>1000</batchSize>
+        <typeMapping>
+            <binaryType>VARBINARY(max)</binaryType>
+            <booleanType>BIT</booleanType>
+            <doubleType>FLOAT(32)</doubleType>
+            <floatType>REAL</floatType>
+            <integerType>INTEGER</integerType>
+            <longType>BIGINT</longType>
+            <stringType>VARCHAR</stringType>
+        </typeMapping>
+    </database>
+    <database name="PostgreSQL">
+        <tableCreateQuery>CREATE TABLE {{TABLE_NAME}} ({{COLUMNS, PRIMARY_KEYS}})</tableCreateQuery>
+        <tableCheckQuery>SELECT 1 FROM {{TABLE_NAME}} LIMIT 1</tableCheckQuery>
+        <indexCreateQuery>CREATE INDEX {{TABLE_NAME}}_INDEX ON {{TABLE_NAME}} ({{INDEX_COLUMNS}})</indexCreateQuery>
+        <recordExistsQuery>SELECT 1 FROM {{TABLE_NAME}} {{CONDITION}} LIMIT 1</recordExistsQuery>
+        <recordSelectQuery>SELECT * FROM {{TABLE_NAME}} {{CONDITION}}</recordSelectQuery>
+        <recordInsertQuery>INSERT INTO {{TABLE_NAME}} ({{COLUMNS}}) VALUES ({{Q}})</recordInsertQuery>
+        <recordUpdateQuery>UPDATE {{TABLE_NAME}} SET {{COLUMNS_AND_VALUES}} {{CONDITION}}</recordUpdateQuery>
+        <recordDeleteQuery>DELETE FROM {{TABLE_NAME}} {{CONDITION}}</recordDeleteQuery>
+        <recordContainsCondition>({{COLUMNS}} LIKE {{VALUES}})</recordContainsCondition>
+        <stringSize>254</stringSize>
+        <batchEnable>true</batchEnable>
+        <batchSize>1000</batchSize>
+        <typeMapping>
+            <binaryType>BYTEA</binaryType>
+            <booleanType>BOOLEAN</booleanType>
+            <doubleType>DOUBLE PRECISION</doubleType>
+            <floatType>REAL</floatType>
+            <integerType>INTEGER</integerType>
+            <longType>BIGINT</longType>
+            <stringType>VARCHAR</stringType>
+        </typeMapping>
+    </database>
+    <database name="DB2.*">
+        <tableCreateQuery>CREATE TABLE {{TABLE_NAME}} ({{COLUMNS, PRIMARY_KEYS}})</tableCreateQuery>
+        <tableCheckQuery>SELECT 1 FROM {{TABLE_NAME}} FETCH FIRST 1 ROWS ONLY</tableCheckQuery>
+        <indexCreateQuery>CREATE INDEX {{TABLE_NAME}}_INDEX ON {{TABLE_NAME}} ({{INDEX_COLUMNS}})</indexCreateQuery>
+        <recordExistsQuery>SELECT 1 FROM {{TABLE_NAME}} {{CONDITION}} FETCH FIRST 1 ROWS ONLY</recordExistsQuery>
+        <recordSelectQuery>SELECT * FROM {{TABLE_NAME}} {{CONDITION}}</recordSelectQuery>
+        <recordInsertQuery>INSERT INTO {{TABLE_NAME}} ({{COLUMNS}}) VALUES ({{Q}})</recordInsertQuery>
+        <recordUpdateQuery>UPDATE {{TABLE_NAME}} SET {{COLUMNS_AND_VALUES}} {{CONDITION}}</recordUpdateQuery>
+        <recordDeleteQuery>DELETE FROM {{TABLE_NAME}} {{CONDITION}}</recordDeleteQuery>
+        <recordContainsCondition>({{COLUMNS}} LIKE {{VALUES}})</recordContainsCondition>
+        <keyExplicitNotNull>true</keyExplicitNotNull>
+        <stringSize>254</stringSize>
+        <batchEnable>true</batchEnable>
+        <batchSize>1000</batchSize>
+        <typeMapping>
+            <binaryType>BLOB(64000)</binaryType>
+            <booleanType>SMALLINT</booleanType>
+            <doubleType>DOUBLE</doubleType>
+            <floatType>REAL</floatType>
+            <integerType>INTEGER</integerType>
+            <longType>BIGINT</longType>
+            <stringType>VARCHAR</stringType>
+        </typeMapping>
+    </database>
+    <database name="Apache Derby">
+        <tableCreateQuery>CREATE TABLE {{TABLE_NAME}} ({{COLUMNS, PRIMARY_KEYS}})</tableCreateQuery>
+        <tableCheckQuery>SELECT 1 FROM {{TABLE_NAME}} LIMIT 1</tableCheckQuery>
+        <indexCreateQuery>CREATE INDEX {{TABLE_NAME}}_INDEX ON {{TABLE_NAME}} ({{INDEX_COLUMNS}})</indexCreateQuery>
+        <recordExistsQuery>SELECT 1 FROM {{TABLE_NAME}} {{CONDITION}} LIMIT 1</recordExistsQuery>
+        <recordSelectQuery>SELECT * FROM {{TABLE_NAME}} {{CONDITION}}</recordSelectQuery>
+        <recordInsertQuery>INSERT INTO {{TABLE_NAME}} ({{COLUMNS}}) VALUES ({{Q}})</recordInsertQuery>
+        <recordUpdateQuery>UPDATE {{TABLE_NAME}} SET {{COLUMNS_AND_VALUES}} {{CONDITION}}</recordUpdateQuery>
+        <recordDeleteQuery>DELETE FROM {{TABLE_NAME}} {{CONDITION}}</recordDeleteQuery>
+        <recordContainsCondition>({{COLUMNS}} LIKE {{VALUES}})</recordContainsCondition>
+        <stringSize>254</stringSize>
+        <batchEnable>true</batchEnable>
+        <batchSize>1000</batchSize>
+        <typeMapping>
+            <binaryType>BLOB</binaryType>
+            <booleanType>TINYINT(1)</booleanType>
+            <doubleType>DOUBLE</doubleType>
+            <floatType>FLOAT</floatType>
+            <integerType>INTEGER</integerType>
+            <longType>BIGINT</longType>
+            <stringType>VARCHAR</stringType>
+        </typeMapping>
+    </database>
+</rdbms-table-configuration>

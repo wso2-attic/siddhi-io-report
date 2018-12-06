@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Siddhi-Io-Report-Test-Suite">
+    <test name="Siddhi-io-report-tests" enabled="true" preserve-order="true" parallel="false">
+        <classes>
+            <class name="org.wso2.extension.siddhi.io.report.sink.TestCaseOfReportSink"/>
+            <class name="org.wso2.extension.siddhi.io.report.generators.StaticReportGeneratorTestCase"/>
+            <!--<class name="org.wso2.extension.siddhi.io.report.source.TestCaseOfReportSource"/>-->
+        </classes>
+    </test>
+</suite>
