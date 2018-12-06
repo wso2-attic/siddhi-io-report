@@ -44,6 +44,7 @@ public class TestCaseOfReportSink {
     @BeforeClass
     public void init() {
         classLoader = TestCaseOfReportSink.class.getClassLoader();
+        new File("TestReportURI").mkdir();
     }
 
     @Test
@@ -55,7 +56,7 @@ public class TestCaseOfReportSink {
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
                 "define stream FooStream(symbol string, price int, volume long, testval bool); " +
-                "@sink(type='report',outputpath='testOut1',@map(type='json')) " +
+                "@sink(type='report',outputpath='testOut',@map(type='json')) " +
                 "define stream BarStream (symbol string,price int, volume long, testval bool); ";
 
         String query = "" +
@@ -83,7 +84,7 @@ public class TestCaseOfReportSink {
 
         stockStream.send(new Event[]{testEvent1, testEvent2, testEvent3, testEvent4});
 
-        File sink = new File(ReportConstants.DEFAULT_REPORT_NAME + ".pdf");
+        File sink = new File("testOut.pdf");
         AssertJUnit.assertTrue(sink.exists());
 
         String file = classLoader.getResource("testOut.pdf").getFile();
@@ -99,6 +100,7 @@ public class TestCaseOfReportSink {
         LOGGER.info("----------------------------------------------------------------------------------------");
 
         String testReportName = "TestReport";
+        String initialVolume = "100";
 
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -131,7 +133,7 @@ public class TestCaseOfReportSink {
 
         stockStream.send(new Event[]{testEvent1, testEvent2, testEvent3, testEvent4});
 
-        File sink = new File(testReportName + ".pdf");
+        File sink = new File(testReportName + initialVolume + ".pdf");
         AssertJUnit.assertTrue(sink.exists());
         siddhiAppRuntime.shutdown();
     }
@@ -599,6 +601,7 @@ public class TestCaseOfReportSink {
         LOGGER.info("-------------------------------------------------------------------------------");
 
         String testReportName = "TestReport";
+        String dynamicValue = "55.6";
 
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -631,7 +634,7 @@ public class TestCaseOfReportSink {
 
         stockStream.send(new Event[]{testEvent1, testEvent2, testEvent3, testEvent4});
 
-        File sink = new File(testReportName + ".pdf");
+        File sink = new File(testReportName + dynamicValue + ".pdf");
         AssertJUnit.assertTrue(sink.exists());
         siddhiAppRuntime.shutdown();
     }
@@ -1561,7 +1564,7 @@ public class TestCaseOfReportSink {
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
                 "define stream FooStream(symbol string, price int, volume long, testval bool); " +
-                "@sink(type='report',outputpath='" + reportName + "',output.format='xlsx',@map(type='json')) " +
+                "@sink(type='report',outputpath='" + reportName + "',output.format='excel',@map(type='json')) " +
                 "define stream BarStream (symbol string,price int, volume long, testval bool); ";
 
         String query = "" +
@@ -1590,49 +1593,6 @@ public class TestCaseOfReportSink {
         stockStream.send(new Event[]{testEvent1, testEvent2, testEvent3, testEvent4});
 
         File sink = new File(reportName + ".xlsx");
-        AssertJUnit.assertTrue(sink.exists());
-        siddhiAppRuntime.shutdown();
-    }
-
-    @Test
-    public void reportSinkTest33() throws InterruptedException {
-        LOGGER.info("---------------------------------------------------------------------------");
-        LOGGER.info("ReportSink TestCase 33 - Configure siddhi to generate reports in xls format");
-        LOGGER.info("---------------------------------------------------------------------------");
-
-        String reportName = "testReport";
-        String streams = "" +
-                "@App:name('TestSiddhiApp')" +
-                "define stream FooStream(symbol string, price int, volume long); " +
-                "@sink(type='report',outputpath='" + reportName + "',output.format='xls',@map(type='json')) " +
-                "define stream BarStream (symbol string,price int, volume long); ";
-
-        String query = "" +
-                "from FooStream " +
-                "select * " +
-                "insert into BarStream; ";
-
-        SiddhiManager siddhiManager = new SiddhiManager();
-        SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(streams + query);
-        InputHandler stockStream = siddhiAppRuntime.getInputHandler("FooStream");
-
-        siddhiAppRuntime.start();
-
-        Event testEvent1 = new Event();
-        testEvent1.setData(new Object[]{"WSO2", 55.6f, 100L});
-
-        Event testEvent2 = new Event();
-        testEvent2.setData(new Object[]{"IBM", 57.8f, 100L});
-
-        Event testEvent3 = new Event();
-        testEvent3.setData(new Object[]{"GOOGLE", 50f, 100L});
-
-        Event testEvent4 = new Event();
-        testEvent4.setData(new Object[]{"WSO2", 55.6f, 100L});
-
-        stockStream.send(new Event[]{testEvent1, testEvent2, testEvent3, testEvent4});
-
-        File sink = new File(reportName + ".xls");
         AssertJUnit.assertTrue(sink.exists());
         siddhiAppRuntime.shutdown();
     }

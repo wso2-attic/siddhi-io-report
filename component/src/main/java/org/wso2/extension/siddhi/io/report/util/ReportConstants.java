@@ -83,8 +83,7 @@ public class ReportConstants {
      */
     public enum OutputFormatTypes {
         PDF,
-        XLS,
-        XLSX,
+        EXCEL,
         CSV,
     }
 }
