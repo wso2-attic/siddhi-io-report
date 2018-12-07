@@ -31,6 +31,7 @@ import org.wso2.siddhi.core.exception.SiddhiAppCreationException;
 import org.wso2.siddhi.core.stream.input.InputHandler;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -44,7 +45,13 @@ public class TestCaseOfReportSink {
     @BeforeClass
     public void init() {
         classLoader = TestCaseOfReportSink.class.getClassLoader();
+        String testInavlidImageFile = "stream-processor.pn";
         new File("TestReportURI").mkdir();
+        try {
+            new File(testInavlidImageFile).createNewFile();
+        } catch (IOException e) {
+            LOGGER.info("No file found for " + testInavlidImageFile);
+        }
     }
 
     @Test
@@ -1425,7 +1432,7 @@ public class TestCaseOfReportSink {
 
         String testReportName = "TestReport";
         String testReportURI = "TestReportURI/";
-        String testImageURI = classLoader.getResource("stream-processor.pn").getFile();
+        String testImageURI = "stream-processor.pn";
 
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
