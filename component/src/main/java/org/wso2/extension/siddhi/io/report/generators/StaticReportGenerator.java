@@ -55,7 +55,7 @@ public class StaticReportGenerator extends ReportGenerator {
 
     private void initializeReportContent() {
         JasperDesign jasperDesign = loadTemplate(reportProperties.get(ReportConstants.TEMPLATE));
-        jasperReport = compileTemplate(jasperDesign);
+        jasperReport = compileTemplate(jasperDesign, reportProperties.get(ReportConstants.TEMPLATE));
         JRParameter[] reportParameters = jasperReport.getParameters();
         datasetParameters = Arrays.stream(reportParameters)
                 .filter(parameter ->

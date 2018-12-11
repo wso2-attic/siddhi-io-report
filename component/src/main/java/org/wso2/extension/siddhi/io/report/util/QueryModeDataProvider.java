@@ -91,7 +91,7 @@ public class QueryModeDataProvider implements DataProvider {
             addAbstractColumns(metaData);
             return data;
         } catch (SQLException e) {
-            throw new SiddhiAppRuntimeException("Cannot retrieve records from  datasource '" + this.dataSourceName, e);
+            throw new SiddhiAppRuntimeException("Cannot retrieve records from  datasource '" + this.dataSourceName + "'.", e);
         } finally {
             RDBMSUtil.cleanupConnection(resultSet, stmt, conn);
         }
@@ -121,7 +121,7 @@ public class QueryModeDataProvider implements DataProvider {
                 reportBuilder.addField(columnName, columnClassName);
             }
         } catch (SQLException e) {
-            throw new SiddhiAppRuntimeException("Could not load metadata from '" + this.dataSourceName, e);
+            throw new SiddhiAppRuntimeException("Could not load metadata from '" + this.dataSourceName + "'.", e);
         }
     }
 

@@ -85,8 +85,7 @@ public abstract class ReportGenerator {
 
             }
         } catch (JRException e) {
-            throw new SiddhiAppRuntimeException("Failed to generate the " + reportProperties.get(ReportConstants
-                    .OUTPUT_FORMAT) + "file in " + outputPath, e);
+            throw new SiddhiAppRuntimeException("Cannot save report " + fileName + " to " + outputPath + ".", e);
         }
     }
 
@@ -98,7 +97,7 @@ public abstract class ReportGenerator {
             jasperPrint = DynamicJasperHelper.generateJasperPrint(report, reportLayout, dataSource,
                     parameters);
         } catch (JRException e) {
-            throw new SiddhiAppRuntimeException("Failed to generate the JasperPrint " + report.getReportName(), e);
+            throw new SiddhiAppRuntimeException("Failed to generate the JasperPrint " + report.getReportName() + ".", e);
         } catch (ClassCastException e) {
             throw new SiddhiAppRuntimeException("Failed to generate the report. Provide a numeric series column. ", e);
         }
@@ -122,17 +121,17 @@ public abstract class ReportGenerator {
         try {
             jasperDesign = JRXmlLoader.load(template);
         } catch (JRException e) {
-            throw new SiddhiAppRuntimeException("Failed to load the report template. " + template, e);
+            throw new SiddhiAppRuntimeException("Failed to load the report template " + template + ".", e);
         }
         return jasperDesign;
     }
 
-    public JasperReport compileTemplate(JasperDesign jasperDesign) {
+    public JasperReport compileTemplate(JasperDesign jasperDesign, String templateName) {
         JasperReport jasperReport;
         try {
             jasperReport = JasperCompileManager.compileReport(jasperDesign);
         } catch (JRException e) {
-            throw new SiddhiAppRuntimeException("Failed to compile the report. ", e);
+            throw new SiddhiAppRuntimeException("Failed to compile the template " + templateName + ".", e);
         }
         return jasperReport;
     }

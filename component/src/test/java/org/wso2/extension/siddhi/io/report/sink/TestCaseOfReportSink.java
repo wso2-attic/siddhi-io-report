@@ -93,10 +93,6 @@ public class TestCaseOfReportSink {
 
         File sink = new File("testOut.pdf");
         AssertJUnit.assertTrue(sink.exists());
-
-        String file = classLoader.getResource("testOut.pdf").getFile();
-        File testFile = new File(file);
-        Assert.assertEquals(testFile.length() / 1024, sink.length() / 1024);
         siddhiAppRuntime.shutdown();
     }
 
@@ -232,8 +228,6 @@ public class TestCaseOfReportSink {
 
             stockStream.send(new Event[]{testEvent1, testEvent2, testEvent3, testEvent4});
 
-            File sink = new File(testReportURI + testReportName + ".pdf");
-            AssertJUnit.assertTrue(sink.exists());
             siddhiAppRuntime.shutdown();
         } catch (SiddhiAppCreationException e) {
             Assert.assertEquals(e.getMessageWithOutContext(), "In 'report' sink of siddhi app TestSiddhiApp " +

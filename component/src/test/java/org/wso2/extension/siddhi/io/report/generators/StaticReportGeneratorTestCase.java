@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.extension.siddhi.io.report.util.DynamicDataProvider;
+import org.wso2.extension.siddhi.io.report.util.ReportConstants;
 import org.wso2.siddhi.core.exception.SiddhiAppCreationException;
 import org.wso2.siddhi.core.exception.SiddhiAppRuntimeException;
 
@@ -58,7 +59,7 @@ public class StaticReportGeneratorTestCase {
     }
 
     @Test(expectedExceptions = SiddhiAppRuntimeException.class, expectedExceptionsMessageRegExp = "Failed to compile " +
-            "the report. ")
+            "the template(?s) .*")
     public void staticReportGeneratorTest2() {
         LOGGER.info("--------------------------------------------------------------------------------");
         LOGGER.info("StaticReportGenerator TestCase 2 - Generate reports with invalid template given.");
@@ -82,7 +83,7 @@ public class StaticReportGeneratorTestCase {
     }
 
     @Test(expectedExceptions = SiddhiAppRuntimeException.class, expectedExceptionsMessageRegExp = "Failed to compile " +
-            "the report. ")
+            "the template(?s) .*")
     public void staticReportGeneratorTest4() {
         //test with invalid report element size in the external JRXML template.
         LOGGER.info("-----------------------------------------------------------------------------------");
@@ -93,7 +94,7 @@ public class StaticReportGeneratorTestCase {
         Map<String, String> reportProperties = DummyData.getWithoutParametersReportProperties();
         StaticReportGenerator staticReportGenerator = new StaticReportGenerator(reportProperties);
         JasperDesign jasperDesign = staticReportGenerator.loadTemplate(template);
-        JasperReport jasperReport = staticReportGenerator.compileTemplate(jasperDesign);
+        JasperReport jasperReport = staticReportGenerator.compileTemplate(jasperDesign, reportProperties.get(ReportConstants.TEMPLATE));
         DynamicDataProvider dynamicDataProvider = new DynamicDataProvider(reportProperties);
         List<Map<String, Object>> dataFromPayload = staticReportGenerator.getDataFromPayload(dynamicDataProvider,
                 DummyData.DUMMY_PAYLOAD);
