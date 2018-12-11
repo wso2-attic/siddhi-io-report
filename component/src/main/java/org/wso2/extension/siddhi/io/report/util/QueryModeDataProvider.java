@@ -62,8 +62,8 @@ public class QueryModeDataProvider implements DataProvider {
         try {
             conn = this.dataSource.getConnection();
         } catch (SQLException e) {
-            throw new SiddhiAppRuntimeException("Cannot initialize datasource '" + this.dataSourceName +
-                    "'connection: ", e);
+            throw new SiddhiAppRuntimeException("Cannot create connection from datasource '" + this.dataSourceName +
+                    "'.", e);
         }
         return conn;
     }
