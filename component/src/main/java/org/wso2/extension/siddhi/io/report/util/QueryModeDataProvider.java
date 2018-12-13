@@ -94,7 +94,7 @@ public class QueryModeDataProvider implements DataProvider {
             throw new SiddhiAppRuntimeException("Cannot retrieve records from  datasource '" + this.dataSourceName +
                     "'.", e);
         } finally {
-            RDBMSUtil.cleanupConnection(resultSet, stmt, conn);
+            RDBMSUtil.cleanup(resultSet, stmt, conn);
         }
     }
 

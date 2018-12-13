@@ -68,7 +68,21 @@ public class RDBMSUtil {
                         "connected.", e);
             }
         }
+    }
 
+    /**
+     * Method which can be used to clear up any type of the SQL connectivity artifacts.
+     *
+     * @param closeable   {@link AutoCloseable} instance (can be null)
+     */
+    private static void closeQuietly(AutoCloseable closeable) {
+        if (closeable != null) {
+            try {
+                closeable.close();
+            } catch (Exception e) {
+                LOG.error("Cannot close " + closeable.getClass().getName(), e);
+            }
+        }
     }
 
     /**
@@ -78,43 +92,9 @@ public class RDBMSUtil {
      * @param stmt {@link Statement} instance (can be null)
      * @param conn {@link Connection} instance (can be null)
      */
-    public static void cleanupConnection(ResultSet rs, Statement stmt, Connection conn) {
-        if (rs != null) {
-            try {
-                rs.close();
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Closed ResultSet");
-                }
-            } catch (SQLException e) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Error in closing ResultSet: ", e);
-                }
-            }
-        }
-        if (stmt != null) {
-            try {
-                stmt.close();
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Closed PreparedStatement");
-                }
-            } catch (SQLException e) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Error in closing PreparedStatement: ", e);
-                }
-
-            }
-        }
-        if (conn != null) {
-            try {
-                conn.close();
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Closed Connection");
-                }
-            } catch (SQLException e) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Error in closing Connection: ", e);
-                }
-            }
-        }
+    public static void cleanup(ResultSet rs, Statement stmt, Connection conn) {
+        closeQuietly(rs);
+        closeQuietly(stmt);
+        closeQuietly(conn);
     }
 }
