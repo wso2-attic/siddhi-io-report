@@ -53,8 +53,7 @@ public abstract class ReportGenerator {
     public ReportGenerator(Map<String, String> reportProperties) {
         this.reportProperties = reportProperties;
     }
-
-
+    
     public void saveReport(JasperPrint jasperPrint, String outputPath) {
         String fileName = reportProperties.get(ReportConstants.OUTPUT_PATH);
         File destFile = null;
@@ -82,7 +81,6 @@ public abstract class ReportGenerator {
                     break;
                 default:
                     break;
-
             }
         } catch (JRException e) {
             throw new SiddhiAppRuntimeException("Cannot save report " + fileName + " to " + outputPath + ".", e);
