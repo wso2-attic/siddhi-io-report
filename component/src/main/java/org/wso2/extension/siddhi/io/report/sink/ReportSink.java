@@ -64,7 +64,15 @@ import java.util.stream.Stream;
         name = "report",
         namespace = "sink",
         description = "Report sink can be used to publish (write) event data which is processed within siddhi" +
-                "into reports.\nSiddhi-io-report provides support to generate reports in PDF format.\n",
+                "into reports.\n" +
+                "Siddhi-io-report provides support to generate reports in pdf, excel and csv formats.\n" +
+                "The user can define report sink parameters in the stream definition. If certain parameters are not" +
+                "configured, default values are considered for optional parameters.\n" +
+                "The report extension consists of two modes: stream and query. By default, the stream mode " +
+                "is activated. There the user can get data from the stream as events or RDBMS data from siddhi-rdbms." +
+                "The query mode enables the user to write queries for a given data source which is defined in " +
+                "the deployment.yaml.\n" +
+                "Further, the user can provide an external JRXML template to fill the data.",
         parameters = {
                 @Parameter(name = "outputpath",
                         description = "This parameter is used to specify the report path for data to be written.",
