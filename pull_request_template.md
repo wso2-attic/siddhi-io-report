@@ -11,8 +11,7 @@
 > Summary of user stories addressed by this change>
 
 ## Release note
-> Brief description of the new feature or bug fix as it will appear in the release notes
-
+> Brief description of the new feature or bug fix as it will appear in the release no
 ## Documentation
 > Link(s) to product documentation that addresses the changes of this PR. If no doc impact, enter “N/A” plus brief explanation of why there’s no doc impact
 
