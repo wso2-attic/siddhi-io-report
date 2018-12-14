@@ -1,4 +1,4 @@
-﻿siddhi-io-report
+siddhi-io-report
 ======================================
 
 The **siddhi-io-report** is an extension to <a target="_blank" href="https://wso2.github.io/siddhi">Siddhi</a>
