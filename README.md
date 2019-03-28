@@ -2,7 +2,7 @@
 ======================================
 
 The **siddhi-io-report** is an extension to <a target="_blank" href="https://wso2.github.io/siddhi">Siddhi</a>
-which is to publish event data to a report.
+that publishes event data to a report.
 The report is generated in PDF format.
 
 Find some useful links below:
