@@ -63,115 +63,147 @@ import java.util.stream.Stream;
 @Extension(
         name = "report",
         namespace = "sink",
-        description = "Report sink can be used to publish (write) event data which is processed within siddhi" +
-                "into reports.\n" +
-                "Siddhi-io-report provides support to generate reports in pdf, excel and csv formats.\n" +
-                "The user can define report sink parameters in the stream definition. If certain parameters are not" +
-                "configured, default values are considered for optional parameters.\n" +
-                "The report extension consists of two modes: stream and query. By default, the stream mode " +
-                "is activated. There the user can get data from the stream as events or RDBMS data from siddhi-rdbms." +
-                "The query mode enables the user to write queries for a given data source which is defined in " +
-                "the deployment.yaml.\n" +
-                "Further, the user can provide an external JRXML template to fill the data.",
+        description = "The Report sink publishes (write) event data that is processed via Siddhi into reports.\n" +
+                "The Siddhi-io-report extension provides support to generate reports in PDF, Excel and CSV formats.\n" +
+                "You can configure report sink parameters in the sink annotation connected to the relevant output" +
+                " stream definition. Some parameters are optional. If you do not configure them, the default values" +
+                " are applied.\n" +
+                "The information you want to publish in the report can be taken from a stream or an RDBMS " +
+                "datasource\n" +
+                "Further, this extension can generate a report based on a specified JRXML template.",
         parameters = {
                 @Parameter(name = "outputpath",
-                        description = "This parameter is used to specify the report path for data to be written.",
+                        description = "The report path to the location to which the data is published.",
                         type = {DataType.STRING}
                 ),
                 @Parameter(name = "output.format",
-                        description = "This parameter is used to specify the format of the report generated. Only " +
-                                "PDF, XLS, XLSX, CSV are supported.",
+                        description = "The format of the report generated. The supported formats are 'PDF', 'XLS', " +
+                                "'XLSX', and 'CSV'.",
                         optional = true,
                         defaultValue = "PDF",
                         type = {DataType.STRING}
                 ),
                 @Parameter(name = "title",
-                        description = "This parameter is used to specify the title of the report",
+                        description = "The title of the report. If you generate the report via a template, the " +
+                                "title specified here is overridden by the title specified in the template. For more" +
+                                " information, see the description of the 'template' parameter.",
                         optional = true,
                         defaultValue = "none",
                         type = {DataType.STRING}
                 ),
                 @Parameter(name = "description",
-                        description = "This parameter is used to specify the description of the report.",
+                        description = "A description of the report. If you generate the report via a template, the " +
+                                "description specified here is overridden by the description specified in the " +
+                                "template. For more information, see the description of the 'template' parameter.",
                         optional = true,
                         defaultValue = "none",
                         type = {DataType.STRING}
                 ),
                 @Parameter(name = "subtitle",
-                        description = "This parameter is used to specify the subtitle of the report",
+                        description = "The subtitle of the report. If you generate the report via a template, the " +
+                                "subtitle specified here is overridden by the subtitle specified in the template. " +
+                                "For more information, see the description of the 'template'parameter.",
                         optional = true,
                         defaultValue = "none",
                         type = {DataType.STRING}
                 ),
                 @Parameter(name = "template",
-                        description = "This parameter is used to specify an external JRXML template path to generate " +
-                                "the report. The given template will be filled and generate the report accordingly.",
+                        description = "This parameter specifies an external JRXML template path to generate " +
+                                "the report. The Report sink passes the required data to the selected template and" +
+                                " generates the report based on it.",
                         optional = true,
                         defaultValue = "none",
                         type = {DataType.STRING}
                 ),
                 @Parameter(name = "dataset",
-                        description = "This parameter is used to specify the dataset for the external template. This " +
-                                "value can have a static stream attribute name or a dynamic value specified by '{}'" +
-                                "eg:sink(type='report',dataset='{symbol}', @map(type='json'));" +
-                                "define stream (symbol string, price float, volume long);",
+                        description = "The dataset for the external template. The value for this parameter can be a " +
+                                "static stream attribute name or a dynamic value specified via '{}'.\n" +
+                                "e.g., 'sink(type='report',dataset='{symbol}', @map(type='json'));'\n" +
+                                "'define stream (symbol string, price float, volume long);'",
                         optional = true,
                         defaultValue = "none",
                         type = {DataType.STRING}
                 ),
                 @Parameter(name = "header",
-                        description = "This parameter is used to specify the header image for the report.",
+                        description = "The path to the image to be used as the header of the report.",
                         optional = true,
                         defaultValue = "none",
                         type = {DataType.STRING}
                 ),
                 @Parameter(name = "footer",
-                        description = "This parameter is used to specify the footer image for the report",
+                        description = "The path to the image to be used as the footer of the report.",
                         optional = true,
                         defaultValue = "none",
                         type = {DataType.STRING}
                 ),
                 @Parameter(name = "chart",
-                        description = "Used to specify the chart type in the report. The value can be 'line', 'bar', " +
-                                "'pie', 'table'. The chart is added into the report according to the parameter value.",
+                        description = "The chart type of the report. The possible values are 'line', 'bar', 'pie'," +
+                                " and 'table'. The value of this parameter is overridden in the following " +
+                                "scenarios:\n" +
+                                "- If you generate the report via a template, the chart type specified in that " +
+                                "template is used. For more information, see the description of the 'template'" +
+                                " parameter.\n" +
+                                "- If you use the 'query' mode, the chart typespecified within the RDBMS query is " +
+                                "used. For more information, see the description of the 'mode' parameter.",
                         optional = true,
                         defaultValue = "table",
                         type = {DataType.STRING}
                 ),
                 @Parameter(name = "chart.title",
-                        description = "This parameter is used to specify the title of the chart. The title is added " +
-                                "along with the chart.",
+                        description = "The title of the chart. The title is added along with the chart. The value of" +
+                                " this parameter is overridden in the following scenarios:\n" +
+                                "- If you generate the report via a template, the chart title specified in that " +
+                                "template is used. For more information, see the description of the 'template'" +
+                                " parameter.\n" +
+                                "- If you use the 'query' mode, the chart title specified within the RDBMS query is" +
+                                " used. For more information, see the description of the 'mode' parameter.",
                         optional = true,
                         defaultValue = "none",
                         type = {DataType.STRING}
                 ),
                 @Parameter(name = "category",
-                        description = "This parameter is used to specify the category variable for the chart defined." +
-                                " The value of this parameter will be taken as the X axis of the chart.",
+                        description = "The category variable of the chart.The value of this parameter is taken as " +
+                                "the X axis of the chart. The value of this parameter is overridden in the following" +
+                                " scenarios:\n" +
+                                "- If you generate the report via a template, the category specified in that " +
+                                "template is used. For more information, see the description of the 'template'" +
+                                " parameter.\n" +
+                                "- If you use the 'query' mode, the category specified within the RDBMS query is " +
+                                "used. For more information, see the description of the 'mode' parameter.",
                         optional = true,
                         defaultValue = "none",
                         type = {DataType.STRING}
                 ),
                 @Parameter(name = "series",
-                        description = "This parameter is used to specify the series variable for the chart. The value" +
-                                " of this parameter will be taken as the Y axis of the chart and it is necessary to " +
-                                "provide  numerical value for this parameter.",
+                        description = "The series variable of the chart. This value is taken as the Y axis of the " +
+                                "chart, and it is necessary to provide  numerical value for this parameter. The " +
+                                "value of this parameter is overridden in the following scenarios:\n" +
+                                "- If you generate the report via a template, the series specified in that " +
+                                "template is used. For more information, see the description of the 'template'" +
+                                " parameter.\n" +
+                                "- If you use the 'query' mode, the series specified within the RDBMS query is " +
+                                "used. For more information, see the description of the 'mode' parameter.",
                         optional = true,
                         defaultValue = "none",
                         type = {DataType.STRING}
                 ),
                 @Parameter(name = "mode",
-                        description = "This parameter is used to specify the series variable for the chart. The value" +
-                                " of this parameter will be taken as the Y axis of the chart and it is necessary to " +
-                                "provide  numerical value for this parameter.",
+                        description = " The mode in which the extension is applied. The possible values are as " +
+                                "follows:\n" +
+                                "- 'stream': This mode allows you to get the information you want to publish in the" +
+                                " report from a stream.\n" +
+                                "- 'query': This mode allows you to write one or more queries to extract data to" +
+                                " publish in the report from an RDBMS data store defined in the " +
+                                "'<SP_HOME>/conf/<PROFILE>/deployment.yaml' file.\n",
                         optional = true,
                         defaultValue = "stream",
                         type = {DataType.STRING}
                 ),
                 @Parameter(name = "queries",
-                        description = "This parameter is used to specify the series variable for the chart. The value" +
-                                " of this parameter will be taken as the Y axis of the chart and it is necessary to " +
-                                "provide  numerical value for this parameter.",
+                        description = "If you have specified 'query' as the mode via the 'mode' parameter, use this" +
+                                " parameter to define one or more queries to extract information from one or more " +
+                                "RDBMS stores defined in the <SP_HOME>/conf/<PROFILE>/deployment.yaml' file, and " +
+                                "specify how that data must be published in the report.",
                         optional = true,
                         defaultValue = "none",
                         type = {DataType.STRING}
@@ -179,77 +211,67 @@ import java.util.stream.Stream;
         },
         examples = {
                 @Example(
-                        syntax = " " +
-                                "@sink(type='report',outputpath='/abc/example.pdf',@map(type='json'))" +
+                        syntax = "@sink(type='report',outputpath='/abc/example.pdf',@map(type='json'))" +
                                 "define stream BarStream(symbol string, price float, volume long);",
-                        description = " " +
-                                "Under above configuration, for an event chunck," +
-                                "a report of type PDF will be generated. There will be a table in the report."
+                        description = "In the above query, the sink gets processed data from the stream named " +
+                                "'BarStream'and publishes that data as a report in PDF format. The query does not " +
+                                "specify a chart type. Therefore, the report includes a table."
                 ),
                 @Example(
-                        syntax = " " +
-                                "@sink(type='report',outputpath='/abc/{symbol}.pdf',@map(type='json'))" +
+                        syntax = "@sink(type='report',outputpath='/abc/{symbol}.pdf',@map(type='json'))" +
                                 "define stream BarStream(symbol string, price float, volume long);",
-                        description = " " +
-                                "Under above configuration, for an event chunck," +
-                                "a report of type PDF will be generated. The name of the report will be the first " +
-                                "event value of the symbol parameter in the stream. There will be a table in the " +
-                                "report."
+                        description = "In the above query, the sink gets processed data from the stream named " +
+                                "'BarStream'and publishes that data as a report in PDF format. The name of the report" +
+                                " is the same as the value for the 'symbol' attribute in the first event. The query" +
+                                " does not specify a chart type. Therefore, the report includes a table."
                 ),
                 @Example(
-                        syntax = " " +
-                                "@sink(type='report',outputpath='/abc/example.pdf',description='This is a sample " +
+                        syntax = "@sink(type='report',outputpath='/abc/example.pdf',description='This is a sample " +
                                 "report for the report sink.',title='Sample Report',subtitle='Report sink sample'," +
                                 "@map(type='json'))" +
                                 "define stream BarStream(symbol string, price float, volume long);",
-                        description = " " +
-                                "Under above configuration, for an event chunck," +
-                                "a report of type PDF will be generated. There will be a table in the report." +
-                                "The report title, description and subtitle will include the values specified as the " +
-                                "parameters. The report will be generated in the given output path."
+                        description = "In the above query, the sink gets processed data from the stream named " +
+                                "'BarStream and publishes that data as a report in PDF format. The query does not " +
+                                "specify a chart type. Therefore, the report includes a table. The title, description" +
+                                " and the subtitle of the report are added as specified in the query. The report is" +
+                                " saved in the '/abc/example.pdf' path specified in the query."
                 ),
                 @Example(
-                        syntax = " " +
-                                "@sink(type='report',outputpath='/abc/example.pdf',chart='Line'," +
+                        syntax = "@sink(type='report',outputpath='/abc/example.pdf',chart='line'," +
                                 "chart.title='Line chart for the sample report.',category='symbol',series='price'," +
                                 "@map(type='json'))" +
                                 "define stream BarStream(symbol string, price float, volume long);",
-                        description = " " +
-                                "Under above configuration, for an event chunck," +
-                                "a report of type PDF will be generated.The report report will include a line chart" +
-                                " with the specified chart title. The chart will be generated with the specified " +
-                                "category and series. The report will be generated in the given output path."
+                        description = "In the above query, the sink gets processed data from the stream named " +
+                                "'BarStream' and publishes that data as a report in PDF format. The chart included in" +
+                                " this report is a line chart titled 'Line chart for the sample report'. The X axis" +
+                                " of this chart (i.e., category) is the symbol, and the Y axis (i.e., the series) is" +
+                                " the price. The report is saved in the '/abc/example.pdf' output path."
                 ),
                 @Example(
-                        syntax = " " +
-                                "@sink(type='report', outputpath='/abc/example.pdf'," +
+                        syntax = "@sink(type='report', outputpath='/abc/example.pdf'," +
                                 "mode='query',datasource.name='SAMPLE_DATASOURCE'," +
-                                "queries=\"\"\"[{\"query\":\"SELECT * FROM SampleTable;\",\"chart\":\"table\"}," +
+                                "queries=\"\"\"[{\"query\":\"SELECT * FROM SampleTable;\",\"chart\":\"table\"}]," +
                                 "@map(type='json'))",
-                        description = " " +
-                                "Under above configuration, for an event trigger," +
-                                "a report of type PDF will be generated.The report report will include a table with " +
-                                "the data from the RDBMS datasource specifies as 'datasource.name' and the data from " +
-                                "the query as specified in 'queries'. The report will be saved in the given output " +
-                                "path."
+                        description = "In the above query, the sink generates a report in PDF format for an event " +
+                                "trigger. The report includes a table with data from the data source named " +
+                                "'SAMPLE_DATASOURCE'. Data is retrieved from this data source by the RDBMS query" +
+                                " specified via the 'queries' parameter. The report is saved in the " +
+                                "'/abc/example.pdf' output path."
                 ),
                 @Example(
-                        syntax = " " +
-                                "@sink(type='report', outputpath='/abc/example.pdf'," +
+                        syntax = "@sink(type='report', outputpath='/abc/example.pdf'," +
                                 "mode='query',datasource.name='SAMPLE_DATASOURCE'," +
                                 "queries=\"\"\"[{\"query\":\"SELECT * FROM SampleTable;\",\"chart\":\"table\"}," +
                                 "{\"query\":\"SELECT Value, Age FROM SampleTable;\"," +
                                 "\"chart\":\"line\",\"series\":\"Value\",\"category\":\"Age\",\"chart.title\":\"Test " +
                                 "chart\"}]\"\"\",\n" +
                                 "@map(type='json'))",
-                        description = " " +
-                                "Under above configuration, for an event trigger," +
-                                "a report of type PDF will be generated. The will be two charts as per each RDBMS " +
-                                "query. The datasource for both queries will be the value specified as 'datasource" +
-                                ".name'. The first query will generate a table with the data from the query as " +
-                                "specified in 'queries'. The second query will generate a line chart where the data " +
-                                "will be taken from the second query as defined in the 'queries' parameter. The " +
-                                "report will be saved in the given output path."
+                        description = "In the above query, the sink generates a report in PDF format for an event " +
+                                "trigger. The 'queries' parameter defines two RDBMS queries to create two charts in " +
+                                "the report. Both these queries extract information from a data source named " +
+                                "'SAMPLE_DATASOURCE'. The first RDBMS query generates a table, and the second " +
+                                "RDBMS query generates a line chart. The report is saved in the '/abc/example.pdf'" +
+                                " output path."
                 )
         }
 )
